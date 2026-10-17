@@ -1,0 +1,13 @@
+# Same file works locally (docker compose up -d --build) and on TrueNAS (Apps -> Install via YAML).
+# All settings and secrets live in the .env file, not here.
+services:
+  paycheck-bot:
+    image: ghcr.io/YOUR_GITHUB_USERNAME/paycheck-bot:latest   # built by GitHub Actions (see README)
+    build: .                                                   # or build locally with: docker compose build
+    container_name: paycheck-bot
+    restart: unless-stopped
+    # On TrueNAS use the absolute path, e.g. /mnt/tank/apps/paycheck-bot/.env
+    env_file: ./.env
+    volumes:
+      # On TrueNAS use a dataset path, e.g. /mnt/tank/apps/paycheck-bot/data:/data
+      - ./data:/data
